@@ -1,0 +1,18 @@
+import subprocess
+
+def check_and_install_dependencies():
+    try:
+        import PyQt5
+        import PyQtWebEngine
+    except ImportError:
+        print("Установка зависимостей PyQt5 и PyQtWebEngine...")
+        result = subprocess.call(['pip', 'install', 'PyQt5', 'PyQtWebEngine'])
+        if result == 0:
+            print("Зависимости успешно установлены.")
+        else:
+            print("Ошибка при установке зависимостей.")
+
+if __name__ == "__main__":
+    check_and_install_dependencies()
+    # Ваш код приложения продолжается здесь
+
