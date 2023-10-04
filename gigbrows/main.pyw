@@ -14,7 +14,6 @@ class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
-        # Установка иконки окна из файла PNG
         self.setWindowIcon(QIcon("your_icon.png"))
 
         self.browser_tabs = QTabWidget()
@@ -57,12 +56,10 @@ class MainWindow(QMainWindow):
         self.browser_tabs.currentChanged.connect(self.update_urlbar)
         self.browser_tabs.currentChanged.connect(self.update_title)
 
-        # Подключение кнопок навигации
         back_btn.triggered.connect(self.navigate_back)
         next_btn.triggered.connect(self.navigate_forward)
         reload_btn.triggered.connect(self.reload_current_browser)
 
-        # Создаем первую вкладку
         self.add_new_tab()
 
     def update_title(self):
@@ -79,13 +76,15 @@ class MainWindow(QMainWindow):
 
     def update_urlbar(self):
         current_browser = self.current_browser()
-        if current_browser:
+        if isinstance(current_browser, BrowserTab):
             q = current_browser.url()
             self.urlbar.setText(q.toString())
             self.urlbar.setCursorPosition(0)
 
     def add_new_tab(self):
-        self.create_new_tab(QUrl("https://www.google.com"))
+        new_tab = self.create_new_tab(QUrl("https://www.google.com"))
+        new_tab.loadFinished.connect(self.update_title)
+        new_tab.loadFinished.connect(self.update_urlbar)  # Добавленная строка
 
     def close_current_tab(self):
         current_tab_index = self.browser_tabs.currentIndex()
@@ -102,6 +101,7 @@ class MainWindow(QMainWindow):
         browser_tab = BrowserTab(url)
         self.browser_tabs.addTab(browser_tab, "New Tab")
         self.browser_tabs.setCurrentWidget(browser_tab)
+        return browser_tab
 
     def navigate_back(self):
         self.current_browser().back()
@@ -114,18 +114,15 @@ class MainWindow(QMainWindow):
         if current_browser:
             current_browser.reload()
 
-# Запуск installer.py перед выполнением основного скрипта
 def run_installer():
     try:
-        subprocess.run(["python", "installer.py"])  # Используйте "python" или "python3" в зависимости от вашей среды Python
+        subprocess.run(["python", "installer.py"])
     except Exception as e:
         print(f"Ошибка при запуске installer.py: {e}")
 
 if __name__ == "__main__":
-    # Сначала запускаем installer.py
     run_installer()
-
-    # Затем создаем приложение и окно браузера
     app = QApplication(sys.argv)
     window = MainWindow()
     app.exec_()
+
