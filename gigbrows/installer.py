@@ -4,7 +4,7 @@ import importlib
 
 # Функция для проверки и установки зависимостей
 def check_and_install_dependencies():
-    required_libraries = ['PyQt6 ', 'PyQtWebEngine']
+    required_libraries = ['PyQt6', 'PyQtWebEngine']
 
     for library in required_libraries:
         try:
