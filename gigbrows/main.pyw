@@ -1,17 +1,17 @@
 import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QToolBar, QAction, QLineEdit
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt6.QtCore import Qt, QUrl
+from PyQt6.QtGui import QIcon
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTabWidget, QToolBar, QAction, QLineEdit, QWidget
+from PyQt6.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
 
 class BrowserTab(QWebEngineView):
     def __init__(self, url):
         super().__init__()
-        self.setUrl(url)
+        self.setUrl(QUrl(url))
 
 class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
-        super(MainWindow, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.setWindowIcon(QIcon("your_icon.png"))
 
@@ -81,7 +81,7 @@ class MainWindow(QMainWindow):
             self.urlbar.setCursorPosition(0)
 
     def add_new_tab(self):
-        new_tab = self.create_new_tab(QUrl("https://www.google.com"))
+        new_tab = self.create_new_tab("https://www.google.com")
         new_tab.loadFinished.connect(self.update_title)
         new_tab.loadFinished.connect(self.update_urlbar)
 
@@ -116,5 +116,6 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
-    app.exec_()
+    app.exec()
+
 
