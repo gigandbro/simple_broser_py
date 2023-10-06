@@ -1,9 +1,8 @@
 import sys
-import subprocess
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import *
-from PyQt5.QtWebEngineWidgets import *
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QToolBar, QAction, QLineEdit
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 class BrowserTab(QWebEngineView):
     def __init__(self, url):
@@ -84,7 +83,7 @@ class MainWindow(QMainWindow):
     def add_new_tab(self):
         new_tab = self.create_new_tab(QUrl("https://www.google.com"))
         new_tab.loadFinished.connect(self.update_title)
-        new_tab.loadFinished.connect(self.update_urlbar)  # Добавленная строка
+        new_tab.loadFinished.connect(self.update_urlbar)
 
     def close_current_tab(self):
         current_tab_index = self.browser_tabs.currentIndex()
@@ -114,14 +113,7 @@ class MainWindow(QMainWindow):
         if current_browser:
             current_browser.reload()
 
-def run_installer():
-    try:
-        subprocess.run(["python", "installer.py"])
-    except Exception as e:
-        print(f"Ошибка при запуске installer.py: {e}")
-
 if __name__ == "__main__":
-    run_installer()
     app = QApplication(sys.argv)
     window = MainWindow()
     app.exec_()
