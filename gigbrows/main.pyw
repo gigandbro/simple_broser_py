@@ -1,8 +1,9 @@
+
 import sys
-from PyQt6.QtCore import Qt, QUrl
-from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTabWidget, QToolBar, QAction, QLineEdit, QWidget
-from PyQt6.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
+from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QToolBar, QLineEdit, QAction
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 class BrowserTab(QWebEngineView):
     def __init__(self, url):
@@ -116,6 +117,5 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
-    app.exec()
-
+    sys.exit(app.exec())
 
